@@ -1,9 +1,9 @@
 const { Favorite } = require('../model/Favorite');
 
 exports.fetchFavoriteByUser = async (req, res) => {
-  const { id } = req.body;//change body
+  const { user } = req.params;//change body
   try {
-    const favoriteItems = await Favorite.find({ user: id }).populate('product');
+    const favoriteItems = await Favorite.find({ user }).populate('product').exec();
 
     res.status(200).json(favoriteItems);
   } catch (err) {

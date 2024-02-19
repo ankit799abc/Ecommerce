@@ -32,7 +32,7 @@ exports.createUser = async (req, res) => {
                 httpOnly: true,
               })
               .status(201)
-              .json({ id: doc.id, role: doc.role });
+              .json({ id: doc.id, role: doc.role ,token: user.token});
           }
         });
       }
@@ -50,7 +50,7 @@ exports.loginUser = async (req, res) => {
       httpOnly: true,
     })
     .status(201)
-    .json({ id: user.id, role: user.role });
+    .json({ id: user.id, role: user.role , token: user.token });
 };
 
 exports.logoutUser = async (req, res) => {

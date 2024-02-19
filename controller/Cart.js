@@ -1,9 +1,9 @@
 const { Cart } = require('../model/Cart');
 
 exports.fetchCartByUser = async (req, res) => {
-  const { id } = req.body;// change body
+  const {user} = req.params// change body
   try {
-    const cartItems = await Cart.find({ user: id }).populate('product');
+    const cartItems = await Cart.find({user}).populate('product').exec();
 
     res.status(200).json(cartItems);
   } catch (err) {
@@ -45,14 +45,23 @@ exports.deleteFromCart = async (req, res) => {
 };
 
 exports.updateCart = async (req, res) => {
-  const { id } = req.params;
+ 
   try {
-    const cart = await Cart.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
-    const result = await cart.populate('product');
+    const {user , product , quantity}=req.body;
+    const cart = await Cart.findOneAndUpdate({user, product}, {
+      
+        $set: {
+          quantity: quantity, 
+        },
+      
+    }, {
+      upsert: true,
+      returnDocument: 'after', // this is new !
+    }
+    );
+   // const result = await cart.populate('product');
 
-    res.status(200).json(result);
+    res.status(200).json(cart);
   } catch (err) {
     res.status(400).json(err);
   }

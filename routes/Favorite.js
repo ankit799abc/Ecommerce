@@ -4,7 +4,7 @@ const { addToFavorite, fetchFavoriteByUser, deleteFromFavorite, updateFavorite ,
 const router = express.Router();
 //  /products is already added in base path
 router.post('/', addToFavorite)
-      .get('/', fetchFavoriteByUser)
+      .get('/:user', fetchFavoriteByUser)
       .delete('/', deleteFromFavorite)
       .patch('/:id', updateFavorite)
       .post('/check',fetchCheckFavoriteByUser)
